@@ -1,0 +1,5 @@
+Flask
+Flask-SQLAlchemy
+DateTime
+SQLAlchemy
+psycopg2-binary

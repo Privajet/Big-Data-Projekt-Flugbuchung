@@ -1,0 +1,182 @@
+{% extends 'base.html' %}
+{% include 'header.html' %}
+
+
+{% block title %} Home {% endblock %}
+
+
+{% block body %} 
+
+<div class="container">
+    <div class="row">
+        <div class="col md-12">
+            <div class="jumbotron p-3">
+
+                <h2>Manage <b>Presence</b> <button type="button" class="btn btn-success float-right"
+                    data-toggle = "modal" data-target = "#mymodal">Add new Presence</button>
+                </h2>
+
+
+
+                    <table class="table table-hover table-dark">
+
+                        <tr>
+                            <th>ID</th>
+                            <th>Chip Number</th>
+                            <th>Room Number</th>
+                            <th>Date</th>
+                            <th>Time Checkin</th>
+                            <th>Time Checkout</th>
+                            
+                        </tr>
+                        {% for row in presence %}
+                        <tr>
+                            <td>{{row.ID}}</td>
+                            <td>{{row.chip_no}}</td>
+                            <td>{{row.room_no}}</td>
+                            <td>{{row.date}}</td>
+                            <td>{{row.time_checkin}}</td>
+                            <td>{{row.time_checkout}}</td>
+     
+                            <td>
+                                <a href="/update/{{row.ID}}" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#modaledit{{row.ID}}">Edit</a>
+                                <a href="/delete/{{row.ID}}" class="btn btn-danger btn-xs" onclick="return confirm('Are You Sure To Delete ?')">Delete</a>
+     
+     
+                            </td>
+     
+                        </tr>
+     
+     
+                      <!-- Modal Edit Employee-->
+    <div id="modaledit{{row.ID}}" class="modal fade" role="dialog">
+       <div class="modal-dialog">
+          <div class="modal-content">
+             <div class="modal-header">
+                <h4 class="modal-title">Update Information</h4>
+             </div>
+             <div class="modal-body">    
+                <form action="{{url_for('update')}}" method="POST">
+     
+     
+                   <div class="form-group">
+     
+     
+                      <label>Chip Number:</label>
+                       <input type="hidden"  name="ID" value="{{row.ID}}">
+     
+                      <input type="text" class="form-control" name="chip_no" value="{{row.chip_no}}">
+                   </div>
+                   <div class="form-group">
+                      <label>Room Number:</label>
+                      <input type="text" class="form-control" name="room_no" value="{{row.room_no}}">
+                   </div>
+                   <div class="form-group">
+                      <label>Date:</label>
+                      <input type="text" class="form-control" name="date" value="{{row.date}}">
+                   </div>
+                   <div class="form-group">
+                        <label>Time Checkin:</label>
+                        <input type="text" class="form-control" name="time_checkin" value="{{row.time_checkin}}">
+                   </div>
+                 <div class="form-group">
+                        <label>Time Checkout:</label>
+                        <input type="text" class="form-control" name="time_checkout" value="{{row.time_checkout}}">
+                 </div>
+                   <div class="form-group">
+                      <button class="btn btn-primary" type="submit">Update</button>
+                   </div>
+                </form>
+     
+     
+             </div>
+     
+     
+             <div class="modal-footer">
+     
+     
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+     
+     
+             </div>
+     
+     
+          </div>
+     
+     
+       </div>
+     
+    </div>
+     
+     
+                        {% endfor %}
+
+                        
+                    </table>
+
+
+
+            </div>
+
+                    <!-- Modal Add Employee-->
+
+<div id="mymodal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <h4 class="modal-title">Add Presence</h4>
+            </div>
+            <div class ="modal-body">
+
+                <form action="{{url_for('insert')}}" method="POST">
+
+                    <div class="form-group">
+                                    
+                        <label>Chip Number:</label>
+                        <input type="text" class="form-control" name="chip_no" required="1">
+                    </div>
+
+                    <div class="form-group">
+                                    
+                        <label>Room Number:</label>
+                        <input type="text" class="form-control" name="room_no" required="1">
+                    </div>
+
+                    <div class="form-group">
+                                    
+                        <label>Date:</label>
+                        <input type="text" class="form-control" name="date" required="1">
+                    </div>
+
+                    <div class="form-group">
+                                    
+                        <label>Time Checkin:</label>
+                        <input type="text" class="form-control" name="time_checkin" required="1">
+                    </div>
+
+                    <div class="form-group">
+                                    
+                        <label>Time Checkout:</label>
+                        <input type="text" class="form-control" name="time_checkout" required="1">
+                    </div>
+
+                    <div class ="form-group">
+
+                        <button class="btn btn-primary" type="submit">Add Presence</button>
+                        </div>
+
+                                
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
