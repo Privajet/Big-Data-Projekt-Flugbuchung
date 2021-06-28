@@ -5,64 +5,45 @@ import psycopg2
 import psycopg2.extras
 
  
-
  
-app = Flask(__name__)
-app.secret_key = "Secret Key"
- 
-#SqlAlchemy Database Configuration 
-##### Hier URL ANPASSEN ###
-DB_URL = 'postgresql+psycopg2://{user}:{pw}@{url}/{db}'.format(user='postgres',pw='postgres',url='localhost',db='kranichairline_db')
-
-app.config['SQLALCHEMY_DATABASE_URI'] = DB_URL
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False 
-
-conn_string = "host="+"localhost"+" port="+"5432"+" dbname="+"kranichairline_db"+ \
-    " user="+"postgres" + " password="+"postgres"
-conn=psycopg2.connect(conn_string)
-
-db = SQLAlchemy(app)
 
 
  
 #Mappings    
 ### Muss angepasst werden
-class Presence(db.Model):
-    ID = db.Column(db.Integer, primary_key = True)
-    chip_no = db.Column(db.Integer())
-    room_no = db.Column(db.Integer())
-    date = db.Column(db.Integer())
-    time_checkin = db.Column(db.Integer())
-    time_checkout = db.Column(db.Integer())
+class Flights(db.Model):
+    flight_no = db.Column(db.Integer, primary_key = True)
+    origin = db.Column(db.String())
+    destination = db.Column(db.String())
+    seats = db.Column(db.Integer())
+    booked_seats = db.Column(db.Integer())
+    price = db.Column(db.numeric())
+    date = db.Column(db.date())
     
 
-    def __init__(self, chip_no, room_no,date, time_checkin, time_checkout):
+    def __init__(self, origin, destination, seats, booked_seats, price, date):
 
-        self.chip_no = chip_no
-        self.room_no = room_no
+        self.flight_no = flight_no
+        self.origin = origin
+        self.destination = destination
+        self.seats = seats
+        self.booked_seats = booked_seats
+        self.price = price
         self.date = date
-        self.time_checkin = time_checkin
-        self.time_checkout = time_checkout
         
-    def __init__(self, pers_no, test_date, positive):
-
-        self.pers_no = pers_no
-        self.test_date = test_date
-        self.positive = positive
-
 #This is the index route where we are going to
 #query on all our presence and coronatests data and the contactpersons
 @app.route('/')
 def Index():
-    all_presence = Presence.query.all()
-    all_tests = Corona_tests.query.all()
+    flights = flights.query.all()
+
 
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-    s = "SELECT * FROM contactpersons"
+    s = "SELECT * FROM flights"
     cur.execute(s) # Execute the SQL
-    list_contactpersons = cur.fetchall()  
+    list_flights = cur.fetchall()  
  
-    return render_template("index.html", presence = all_presence, contactpersons=list_contactpersons, corona_tests=all_tests)
+    return render_template("index.html", presence = all_presence)
 
 
 
