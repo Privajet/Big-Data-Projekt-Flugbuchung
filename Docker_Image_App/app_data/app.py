@@ -8,7 +8,7 @@ import psycopg2.extras
  
 
 
- 
+  
 #Mappings    
 ### Muss angepasst werden
 class Flights(db.Model):
