@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: memcache-deployment
+  labels:
+    app: memcache-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: memcached
+  template:
+    metadata:
+      labels:
+        app: memcached
+    spec:
+      containers:
+        - name: memcached
+          image: memcached:alpine
+          ports:
+            - containerPort: 11211
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: memcached-service
+spec:
+  clusterIP: None
+  selector:
+    app: memcached
+
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+    name: memcache-deployment
+spec:
+    scaleTargetRef:
+        apiVersion: apps/v1
+        kind: Deployment
+        name: memcache-deployment
+    minReplicas: 1
+    maxReplicas: 10
+    targetCPUUtilizationPercentage: 50
