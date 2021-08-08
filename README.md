@@ -1,4 +1,5 @@
 # BigData
+Abgabe des Big Data Projekts
 
 ## Use-Case
 Dieses Projekt soll einen skalierbaren Zugang zu einer Datenbank mit Flügen ermöglichen und die Flugpreise je nach Zugriffshäufigkeit anpassen.
