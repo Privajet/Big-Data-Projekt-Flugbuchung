@@ -1,0 +1,20 @@
+apiVersion: skaffold/v2beta21
+kind: Config
+metadata:
+  name: skaffold-test
+build:
+  artifacts:
+  - image: dockertestapp
+    context: dockertestapp
+    docker:
+      dockerfile: Dockerfile
+deploy:
+  kubectl:
+    manifests:
+    - memchached_full.yaml
+    - mongo.yaml
+    - dockertestapp\deployment.yaml
+portForward:
+- resourceType: service
+  resourceName: dockertestapp
+  port: 5001

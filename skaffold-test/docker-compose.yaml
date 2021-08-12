@@ -1,0 +1,12 @@
+version: '3'
+
+services: 
+    datenbank-service:
+        build: ./Docker_Image_Postgres
+        ports:
+            -5001:80
+    Webserver-service:
+        build:  ./Docker_Image_App
+        ports:
+          -5002:80
+          
