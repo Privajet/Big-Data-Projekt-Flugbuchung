@@ -1,3 +1,11 @@
+# To Do
+- Webserver: app.py neu aufsetzen, Verbindung mit Postgres-Server testen. Evlt PostgrREST benutzen?
+- MongoDB mit Postgrest ersetzen
+- HDFS-Dockerfile implementieren und testen
+- Verbindung zwischen allen Elementen herstellen und Testen (Ports, Protokolle, Schnittstellen etc.)
+- Doku + Code-Kommentare
+- Video
+
 # BigData
 Abgabe des Big Data Projekts
 
