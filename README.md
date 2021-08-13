@@ -23,11 +23,25 @@ Dieser verteilt dann die Anfragen gleichmäßig auf alle Server
 Wird über einen HDFS-Kubernetes Pod realisiert.
 ### Cache Server
 Der Webserver schreibt bei Zugriff die empfangenen Daten auf einen Cacheserver und falls die Daten nicht älter als 30 Sekunden beim nächsten Zugriff sind werden sie von dort, statt von der Datenbank an den Webserver geliefert. HorizontalPodAutoScale Falls die CPU Auslastung eines Pods über 50 Prozent steigt wird ein weiterer Pod des Servers erstellt (bis zu maximal 10)
-### App
-Die Flask-App läuft auf einem Docker Container und gibt eine einfache Webseite aus auf der die Flugdaten angezeigt werden sowie die aktuellen Preise mit einem Klick abgefragt werden können. (Optional: Buchungsoption mit Datenbankeintrag)
+### Webserver
+Die Flask-App läuft auf einem Docker Container und gibt eine einfache Webseite aus auf der die Flugdaten angezeigt werden sowie die aktuellen Preise mit einem Klick abgefragt werden können. Beim start werden 2 Webserver erzeugt, die aber automatisch nach Auslastung hochskaliert werden können. (Optional: Buchungsoption mit Datenbankeintrag)
 ### Postgres-Datenbank
 Die Datenbank läuft auf einem Docker-Container mit postgres image und bietet Zugriff auf die Flugdaten über den Port 3000.
 Benutzername und Passwort sind "Postgres"
+### Big Data Messaging
+Wird über Kafka realisiert. Hierzu wird ein pod mit Zookeeper zur Kafka-verwaltung gestartet und zwei Pods um Kafka-Topics zu lesen und zu beschreiben.
 
+
+## Installation
+
+### Voraussetzungen
+Folgende Programme müssen installiert sein:
+- docker 
+- skaffold 
+- das ganze andere Zeugs auch
+
+### Anleitung
+1. *skaffold dev* im Ordner mit der Skaffold.yaml ausführen
+2. fertig.
 
 
