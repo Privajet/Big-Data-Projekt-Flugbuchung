@@ -19,8 +19,11 @@ build:
 deploy:
   kubectl:
     manifests:
+    - kafka-service.yaml
     - memchached_full.yaml
     - mongo.yaml
+    - zookeeper.yml
+    - zooservice.yml
     - Docker_Image_App/flask-app-service.yaml
     - Docker_Image_App/flask_app_deployment.yaml
     - Docker_Image_Postgres/deployment.yaml
