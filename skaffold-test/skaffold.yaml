@@ -4,8 +4,16 @@ metadata:
   name: skaffold-test
 build:
   artifacts:
+  - image: docker-image-postgres
+    context: Docker_Image_Postgres
+    docker:
+      dockerfile: Dockerfile
   - image: dockertestapp
     context: dockertestapp
+    docker:
+      dockerfile: Dockerfile
+  - image: flaskapp
+    context: Docker_Image_App
     docker:
       dockerfile: Dockerfile
 deploy:
@@ -13,8 +21,7 @@ deploy:
     manifests:
     - memchached_full.yaml
     - mongo.yaml
-    - dockertestapp\deployment.yaml
-portForward:
-- resourceType: service
-  resourceName: dockertestapp
-  port: 5001
+    - Docker_Image_App/flask-app-service.yaml
+    - Docker_Image_App/flask_app_deployment.yaml
+    - Docker_Image_Postgres/deployment.yaml
+    - dockertestapp/deployment.yaml
