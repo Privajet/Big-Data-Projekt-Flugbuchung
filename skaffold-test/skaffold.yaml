@@ -20,6 +20,7 @@ deploy:
   kubectl:
     manifests:
     - kafka-service.yaml
+    - loadbalancer.yml
     - memchached_full.yaml
     - mongo.yaml
     - zookeeper.yml
