@@ -16,6 +16,10 @@ build:
     context: Docker_Image_App
     docker:
       dockerfile: Dockerfile
+  - image: wurstmeister/kafka
+    context: spark-app
+    docker:
+      dockerfile: Dockerfile
 deploy:
   kubectl:
     manifests:
