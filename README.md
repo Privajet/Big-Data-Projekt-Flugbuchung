@@ -1,8 +1,14 @@
 # To Do
 - Webserver: app.py neu aufsetzen, Verbindung mit Postgres-Server testen. Evlt PostgrREST benutzen?
-- MongoDB mit Postgrest ersetzen
 - HDFS-Dockerfile implementieren und testen
 - Verbindung zwischen allen Elementen herstellen und Testen (Ports, Protokolle, Schnittstellen etc.)
+  -Host-Loadbalancer-Webapp
+  -Webapp-Cacheserver
+  -Webapp-DB-Server
+  -Webapp-Kafka
+  -Kafka-HDFS
+  -Kafka/BigData-DB
+  
 - Doku + Code-Kommentare
 - Video
 
@@ -18,7 +24,7 @@ Werte die die Zugriffshäufigkeit angeben werden in einem HDFS Data-Lake gespeic
 
 ### Load Balancer
 Der Load Balancer besteht aus einem nginx-pod, über den von außen auf das Cluster zugegriffen werden kann. 
-Dieser verteilt dann die Anfragen gleichmäßig auf alle Server
+Dieser verteilt dann die Anfragen gleichmäßig auf alle Server.
 ### Data-Lake
 Wird über einen HDFS-Kubernetes Pod realisiert.
 ### Cache Server
@@ -37,6 +43,7 @@ Wird über Kafka realisiert. Hierzu wird ein pod mit Zookeeper zur Kafka-verwalt
 ### Voraussetzungen
 Folgende Programme müssen installiert sein:
 - docker 
+- minikube und *minikube tunnel* aktiviert
 - skaffold 
 - das ganze andere Zeugs auch
 
