@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ngix
+  labels:
+    app: ngix
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+  clusterIP: None
+  selector:
+    app: ngix
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ngix
+  labels:
+    app: ngix
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ngix
+  template:
+    metadata:
+      labels:
+        app: ngix
+    spec:
+      containers:
+      - name: ngix
+        image: ngix

@@ -7,6 +7,6 @@ COPY ./hello.py /app/hello.py
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 WORKDIR /app
-
+EXPOSE 5000
 ENTRYPOINT ["flask"]
 CMD ["run", "--host=0.0.0.0"]

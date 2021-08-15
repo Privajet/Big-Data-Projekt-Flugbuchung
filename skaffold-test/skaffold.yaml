@@ -16,11 +16,14 @@ build:
     context: Docker_Image_App
     docker:
       dockerfile: Dockerfile
+  - image: ngix
+    context: ngix
+    docker:
+      dockerfile: Dockerfile
 deploy:
   kubectl:
     manifests:
-    - kafka-service.yaml
-    - loadbalancer.yml
+    #- kafka-service.yaml
     - memchached_full.yaml
     - mongo.yaml
     - zookeeper.yml
@@ -29,3 +32,8 @@ deploy:
     - Docker_Image_App/flask_app_deployment.yaml
     - Docker_Image_Postgres/deployment.yaml
     - dockertestapp/deployment.yaml
+    - ngix\deployment.yaml
+portForward:
+- resourceType: service
+  resourceName: ngix
+  port: 80

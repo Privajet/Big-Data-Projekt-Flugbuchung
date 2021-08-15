@@ -15,3 +15,5 @@ spec:
       containers:
         - name: flask-hello-world
           image: flaskapp
+          ports:
+          - containerPort: 5000
