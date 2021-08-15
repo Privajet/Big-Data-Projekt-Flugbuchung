@@ -43,6 +43,7 @@ Wird über Kafka realisiert. Hierzu wird ein pod mit Zookeeper zur Kafka-verwalt
 ### Voraussetzungen
 Folgende Programme müssen installiert sein:
 - docker 
+- minikube und *minikube tunnel* aktiviert
 - skaffold 
 - das ganze andere Zeugs auch
 
