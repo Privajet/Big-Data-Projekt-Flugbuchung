@@ -1,5 +1,12 @@
 # To Do
-- Webserver: app.py neu aufsetzen, Verbindung mit Postgres-Server testen. Evlt PostgrREST benutzen?
+- test des Webservers
+  *minikube service flask-service --url* gibt die richtige addresse aus
+  siehe https://codingbee.net/tutorials/kubernetes/services-nodeport
+  
+  Erklärung der Verschiedenen Ports:
+  https://matthewpalmer.net/kubernetes-app-developer/articles/service-kubernetes-example-tutorial.html
+  
+- Webserver: app.py neu aufsetzen, Verbindung mit Postgres-Server testen. 
 - HDFS-Dockerfile implementieren und testen
 - Verbindung zwischen allen Elementen herstellen und Testen (Ports, Protokolle, Schnittstellen etc.)
   -Host-Loadbalancer-Webapp
