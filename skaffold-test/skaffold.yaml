@@ -25,10 +25,10 @@ deploy:
     manifests:
     #- kafka-service.yaml
     - memchached_full.yaml
+    - Docker_Image_App/flask-app-service.yaml
     - mongo.yaml
     - zookeeper.yml
     - zooservice.yml
-    - Docker_Image_App/flask-app-service.yaml
     - Docker_Image_App/flask_app_deployment.yaml
     - Docker_Image_Postgres/deployment.yaml
     - dockertestapp/deployment.yaml
@@ -36,4 +36,13 @@ deploy:
 portForward:
 - resourceType: service
   resourceName: ngix
-  port: 80
+  port: 8080
+  # das ist der Port des Pods/Services auf den weitergeleitet wird
+  localPort: 9000
+  # Das ist der Port der von der lokalen Maschine aus angesrpchen wird
+- resourceType: service
+  resourceName: flask-service
+  port: 5001
+  # das ist der Port des Pods/Services auf den weitergeleitet wird
+  localPort: 9001
+  # Das ist der Port der von der lokalen Maschine aus angesrpchen wird

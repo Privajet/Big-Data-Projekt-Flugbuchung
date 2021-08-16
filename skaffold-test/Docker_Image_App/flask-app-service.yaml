@@ -16,7 +16,7 @@ spec:
    
 
    
-   port: 5002
+   port: 5001
       # port: Port den dieser Service exposed
    targetPort: 5000
    ## target Port: Port des Ziel-pods den dieser Service anspricht   
