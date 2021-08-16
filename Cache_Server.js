@@ -6,7 +6,7 @@ const MemcachePlus = require('memcache-plus');
 const mongo = require('mongodb');
 const MongoClient = mongo.MongoClient;
 
-//Verbinden zu Memcached Instanzen, Mongo Container Port: 27017
+//Connect to the memcached instances, Mongo Container Port: 27017
 let memcached = null
 let memcachedServers = []
 
