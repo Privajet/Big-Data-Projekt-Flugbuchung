@@ -1,5 +1,4 @@
 const dns = require('dns').promises;
-const os = require('os')
 const express = require('express')
 const { addAsync } = require('@awaitjs/express');
 const app = addAsync(express());
@@ -7,18 +6,18 @@ const MemcachePlus = require('memcache-plus');
 const mongo = require('mongodb');
 const MongoClient = mongo.MongoClient;
 
-//Verbinden zu den memcached Instanzen
+//Verbinden zu Memcached Instanzen, Mongo Container Port: 27017
 let memcached = null
 let memcachedServers = []
 
 const dbConfig = 'mongodb://mongo-connection:27017'
 
-//Get-Funktion für Memcached Server von der DNS 
+//Get-Funktion für Memcached Server von der DNS, Port: 11211
 async function getMemcachedServersFromDns() {
 	let queryResult = await dns.lookup('memcached-service', { all: true })
 	let servers = queryResult.map(el => el.address + ":11211")
 
-	//Nur ein neues Objekt erstellen, wenn die Serverliste sich verändert hat
+	//Nur ein neues Objekt erstellen, wenn sich die Web-Server Liste verändert hat
 	if (memcachedServers.sort().toString() !== servers.sort().toString()) {
 		console.log("Updated memcached server list to ", servers)
 		memcachedServers = servers
@@ -29,7 +28,7 @@ async function getMemcachedServersFromDns() {
 	}
 }
 
-//Ursprüchlich versuchen, zu einem memcached Server zu verbinden, dann die liste immer nach 5s updaten
+//Ursprüchlich versuchen, zu dem Mamcached Server zu verbinden, dann die Web-Server Liste immer nach 5s updaten
 getMemcachedServersFromDns()
 setInterval(() => getMemcachedServersFromDns(), 5000)
 
@@ -57,7 +56,7 @@ app.getAsync('/', async function (request,response) {
 	if (cachedata) {
 		response.send(`<h1>Willkommen beim Ticketing System. (Quelle: Cache)</h1> 
 		<ul>
-			<li>Ihr Host ${os.hostname()}</li>
+			<li>Ihr Host</li>
 			<li>Welche Memcached Server?: ${memcachedServers}</li>
 			<li>Aktuelle Tickets: ${cachedata["titles"]}</li>
 		</ul>`)
@@ -69,7 +68,7 @@ app.getAsync('/', async function (request,response) {
 				await memcached.set(key, data, 30 /* seconds */);
 			response.send(`<h1>Willkommen beim Ticketing System.</h1> 
 					<ul>
-						<li>Ihr Host ${os.hostname()}</li>
+						<li>Ihr Host</li>
 						<li>Welche Memcached Server?: ${memcachedServers}</li>
 						<li>Aktuelle Tickets: ${data["titles"]}</li>
 					</ul>`); 
