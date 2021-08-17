@@ -1,3 +1,4 @@
+const os = require('os')
 const dns = require('dns').promises;
 const express = require('express')
 const { addAsync } = require('@awaitjs/express');
@@ -5,6 +6,10 @@ const app = addAsync(express());
 const MemcachePlus = require('memcache-plus');
 const mongo = require('mongodb');
 const MongoClient = mongo.MongoClient;
+
+// -------------------------------------------------------
+// Memcache Configuration
+// -------------------------------------------------------
 
 //Connect to the memcached instances, Mongo Container Port: 27017
 let memcached = null
