@@ -40,9 +40,9 @@ portForward:
   # das ist der Port des Pods/Services auf den weitergeleitet wird
   localPort: 9000
   # Das ist der Port der von der lokalen Maschine aus angesrpchen wird
-- resourceType: service
-  resourceName: flask-service
-  port: 5001
+#- resourceType: service
+#  resourceName: flask-service
+#  port: 5001
   # das ist der Port des Pods/Services auf den weitergeleitet wird
-  localPort: 9001
+#  localPort: 9001
   # Das ist der Port der von der lokalen Maschine aus angesrpchen wird

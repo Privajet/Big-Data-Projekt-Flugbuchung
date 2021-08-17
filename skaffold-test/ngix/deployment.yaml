@@ -8,6 +8,7 @@ spec:
   ports:
   - port: 8080
     protocol: TCP
+    targetPort: 8080
   clusterIP: None
   selector:
     app: ngix
@@ -31,3 +32,5 @@ spec:
       containers:
       - name: ngix
         image: ngix
+        ports:
+        - containerPort: 8080
