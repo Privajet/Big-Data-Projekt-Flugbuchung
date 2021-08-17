@@ -1,4 +1,5 @@
 // Übernommen von Mr. Pfisterer
+// Inklusive Client um auf den Memcache zugreifen zu können
 {
   "name": "nodejs-dokku-app",
   "version": "1.0.0",
@@ -13,6 +14,6 @@
     "@awaitjs/express": "^0.6.3",
     "@mysql/xdevapi": "^8.0.22",
     "express": "^4.17.1",
-    "memcache-plus": "^0.2.21" //Client um auf den Memcache zugreifen zu können
+    "memcache-plus": "^0.2.21" 
   }
 }
