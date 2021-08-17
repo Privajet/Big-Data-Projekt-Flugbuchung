@@ -1,5 +1,7 @@
-const dns = require('dns').promises;
+// Cache Server Ansprache aus Web Server-Teil
+
 const os = require('os')
+const dns = require('dns').promises;
 const express = require('express')
 const { addAsync } = require('@awaitjs/express');
 const app = addAsync(express());
@@ -7,33 +9,39 @@ const MemcachePlus = require('memcache-plus');
 const mongo = require('mongodb');
 const MongoClient = mongo.MongoClient;
 
-//Verbinden zu den memcached Instanzen
+// -------------------------------------------------------
+// Memcache Configuration
+// -------------------------------------------------------
+
+//Connect to the memcached instances, Mongo Container Port: 27017
 let memcached = null
 let memcachedServers = []
 
-const dbConfig = 'mongodb://mongo-connection:27017'
-
-//Get-Funktion für Memcached Server von der DNS 
+//Get-Funktion für Memcached Server von der DNS, Port: 11211
 async function getMemcachedServersFromDns() {
 	let queryResult = await dns.lookup('memcached-service', { all: true })
+	// Create IP:Port mappings
 	let servers = queryResult.map(el => el.address + ":11211")
 
-	//Nur ein neues Objekt erstellen, wenn die Serverliste sich verändert hat
+	// Check if the list of servers has changed
+	// and only create a new object if the server list has changed
 	if (memcachedServers.sort().toString() !== servers.sort().toString()) {
 		console.log("Updated memcached server list to ", servers)
 		memcachedServers = servers
-		//Einen verbundenen Client disconnecten
+		
+		//Disconnect an existing client
 		if (memcached)
 			await memcached.disconnect()
+		
 		memcached = new MemcachePlus(memcachedServers);
 	}
 }
 
-//Ursprüchlich versuchen, zu einem memcached Server zu verbinden, dann die liste immer nach 5s updaten
+//Initially try to connect to the memcached servers, then each 5s update the list
 getMemcachedServersFromDns()
 setInterval(() => getMemcachedServersFromDns(), 5000)
 
-//Get-Funktion um Daten von der Cache zu holen, falls diese bereits existiert
+//Get data from cache if a cache exists yet
 async function getFromCache(key) {
 	if (!memcached) {
 		console.log(`No memcached instance available, memcachedServers = ${memcachedServers}`)
@@ -42,45 +50,31 @@ async function getFromCache(key) {
 	return await memcached.get(key);
 }
 
-//Get-Funktion um Daten vom Mongoclient zu beziehen
-async function get_data_from_mongo() {
-    let db = await MongoClient.connect('mongodb://mongo-connection:27017/news');
-        let thing = await db.collection("newscollection").findOne();
-        await db.close();
-        return thing;
-}
-
-app.getAsync('/', async function (request,response) {
-	let key = 'user_'
+// -------------------------------------------------------
+// Start page
+// -------------------------------------------------------
+ 
+// Differnece to Mr. Pfisterer getMissions() = getFlights()
+// Get list of flights (from cache or db)
+async function getFlights() {
+	const key = 'flights'
 	let cachedata = await getFromCache(key)
 
 	if (cachedata) {
-		response.send(`<h1>Willkommen beim Ticketing System. (Quelle: Cache)</h1> 
-		<ul>
-			<li>Ihr Host ${os.hostname()}</li>
-			<li>Welche Memcached Server?: ${memcachedServers}</li>
-			<li>Aktuelle Tickets: ${cachedata["titles"]}</li>
-		</ul>`)
+		console.log(`Cache hit for key=${key}, cachedata = ${cachedata}`)
+		return { result: cachedata, cached: true }
 	} else {
-		let data = await get_data_from_mongo()
+		console.log(`Cache miss for key=${key}, querying database`)
+		let executeResult = await executeQuery("SELECT mission FROM missions", [])
+		let data = executeResult.fetchAll()
 		if (data) {
-			console.log(`Got data=${data}, storing in cache`)
+			let result = data.map(row => row[0])
+			console.log(`Got result=${result}, storing in cache`)
 			if (memcached)
-				await memcached.set(key, data, 30 /* seconds */);
-			response.send(`<h1>Willkommen beim Ticketing System.</h1> 
-					<ul>
-						<li>Ihr Host ${os.hostname()}</li>
-						<li>Welche Memcached Server?: ${memcachedServers}</li>
-						<li>Aktuelle Tickets: ${data["titles"]}</li>
-					</ul>`); 
+				await memcached.set(key, result, cacheTimeSecs);
+			return { result, cached: false }
 		} else {
-			response.send("Noch keine Daten. Bitte warten bis Application das nächste mal läuft!");
+			throw "No flights data found"
 		}
 	}
-})
-
-app.set('port', (process.env.PORT || 8080))
-
-app.listen(app.get('port'), function () {
-	console.log("Node app is running at localhost:" + app.get('port'))
-})
+}
