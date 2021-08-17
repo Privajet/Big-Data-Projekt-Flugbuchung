@@ -51,3 +51,32 @@ async function getFromCache(key) {
 	}
 	return await memcached.get(key);
 }
+
+// -------------------------------------------------------
+// Start page
+// -------------------------------------------------------
+ 
+// Differnece to Mr. Pfisterer getMissions() = getFlights()
+// Get list of flights (from cache or db)
+async function getFlights() {
+	const key = 'flights'
+	let cachedata = await getFromCache(key)
+
+	if (cachedata) {
+		console.log(`Cache hit for key=${key}, cachedata = ${cachedata}`)
+		return { result: cachedata, cached: true }
+	} else {
+		console.log(`Cache miss for key=${key}, querying database`)
+		let executeResult = await executeQuery("SELECT mission FROM missions", [])
+		let data = executeResult.fetchAll()
+		if (data) {
+			let result = data.map(row => row[0])
+			console.log(`Got result=${result}, storing in cache`)
+			if (memcached)
+				await memcached.set(key, result, cacheTimeSecs);
+			return { result, cached: false }
+		} else {
+			throw "No flights data found"
+		}
+	}
+}
