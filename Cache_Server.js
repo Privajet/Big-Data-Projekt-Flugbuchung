@@ -15,24 +15,28 @@ const dbConfig = 'mongodb://mongo-connection:27017'
 //Get-Funktion für Memcached Server von der DNS, Port: 11211
 async function getMemcachedServersFromDns() {
 	let queryResult = await dns.lookup('memcached-service', { all: true })
+	// Create IP:Port mappings
 	let servers = queryResult.map(el => el.address + ":11211")
 
-	//Nur ein neues Objekt erstellen, wenn sich die Web-Server Liste verändert hat
+	// Check if the list of servers has changed
+	// and only create a new object if the server list has changed
 	if (memcachedServers.sort().toString() !== servers.sort().toString()) {
 		console.log("Updated memcached server list to ", servers)
 		memcachedServers = servers
-		//Einen verbundenen Client disconnecten
+		
+		//Disconnect an existing client
 		if (memcached)
 			await memcached.disconnect()
+		
 		memcached = new MemcachePlus(memcachedServers);
 	}
 }
 
-//Ursprüchlich versuchen, zu dem Mamcached Server zu verbinden, dann die Web-Server Liste immer nach 5s updaten
+//Initially try to connect to the memcached servers, then each 5s update the list
 getMemcachedServersFromDns()
 setInterval(() => getMemcachedServersFromDns(), 5000)
 
-//Get-Funktion um Daten von der Cache zu holen, falls diese bereits existiert
+//Get data from cache if a cache exists yet
 async function getFromCache(key) {
 	if (!memcached) {
 		console.log(`No memcached instance available, memcachedServers = ${memcachedServers}`)
