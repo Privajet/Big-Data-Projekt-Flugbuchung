@@ -1,8 +1,0 @@
-  mongo:
-    container_name: mongo-container
-    image: mongo
-    networks:
-      database_project_network:
-        ipv4_address: 172.16.238.16
-    ports: 
-      - 27017
