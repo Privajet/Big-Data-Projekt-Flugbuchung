@@ -17,8 +17,6 @@ const MongoClient = mongo.MongoClient;
 let memcached = null
 let memcachedServers = []
 
-const dbConfig = 'mongodb://mongo-connection:27017'
-
 //Get-Funktion für Memcached Server von der DNS, Port: 11211
 async function getMemcachedServersFromDns() {
 	let queryResult = await dns.lookup('memcached-service', { all: true })
