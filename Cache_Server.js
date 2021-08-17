@@ -1,3 +1,5 @@
+// Cache Server Ansprache aus Web Server-Teil
+
 const os = require('os')
 const dns = require('dns').promises;
 const express = require('express')
@@ -49,46 +51,3 @@ async function getFromCache(key) {
 	}
 	return await memcached.get(key);
 }
-
-//Get-Funktion um Daten vom Mongoclient zu beziehen
-async function get_data_from_mongo() {
-    let db = await MongoClient.connect('mongodb://mongo-connection:27017/news');
-        let thing = await db.collection("newscollection").findOne();
-        await db.close();
-        return thing;
-}
-
-app.getAsync('/', async function (request,response) {
-	let key = 'user_'
-	let cachedata = await getFromCache(key)
-
-	if (cachedata) {
-		response.send(`<h1>Willkommen beim Ticketing System. (Quelle: Cache)</h1> 
-		<ul>
-			<li>Ihr Host</li>
-			<li>Welche Memcached Server?: ${memcachedServers}</li>
-			<li>Aktuelle Tickets: ${cachedata["titles"]}</li>
-		</ul>`)
-	} else {
-		let data = await get_data_from_mongo()
-		if (data) {
-			console.log(`Got data=${data}, storing in cache`)
-			if (memcached)
-				await memcached.set(key, data, 30 /* seconds */);
-			response.send(`<h1>Willkommen beim Ticketing System.</h1> 
-					<ul>
-						<li>Ihr Host</li>
-						<li>Welche Memcached Server?: ${memcachedServers}</li>
-						<li>Aktuelle Tickets: ${data["titles"]}</li>
-					</ul>`); 
-		} else {
-			response.send("Noch keine Daten. Bitte warten bis Application das nächste mal läuft!");
-		}
-	}
-})
-
-app.set('port', (process.env.PORT || 8080))
-
-app.listen(app.get('port'), function () {
-	console.log("Node app is running at localhost:" + app.get('port'))
-})
