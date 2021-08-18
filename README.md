@@ -6,7 +6,8 @@
   Erklärung der Verschiedenen Ports:
   https://matthewpalmer.net/kubernetes-app-developer/articles/service-kubernetes-example-tutorial.html
   
-- Webserver: app.py neu aufsetzen, Verbindung mit Postgres-Server testen. 
+  - Verbindung neu einrichten min nginx server
+- Webserver: app.py neu aufsetzen, Verbindung mit Postgres-Server, Kafka und Cacheserver testen. 
 - HDFS-Dockerfile implementieren und testen
 - Verbindung zwischen allen Elementen herstellen und Testen (Ports, Protokolle, Schnittstellen etc.)
   -Host-Loadbalancer-Webapp
@@ -20,7 +21,7 @@
 - Video
 
 # BigData
-Abgabe des Big Data Projekts
+Big Data Projekt
 
 ## Use-Case
 Dieses Projekt soll einen skalierbaren Zugang zu einer Datenbank mit Flügen ermöglichen und die Flugpreise je nach Zugriffshäufigkeit anpassen.
