@@ -6,7 +6,16 @@
   Erklärung der Verschiedenen Ports:
   https://matthewpalmer.net/kubernetes-app-developer/articles/service-kubernetes-example-tutorial.html
   
-  - Verbindung neu einrichten min nginx server
+  Problem: keine Verbindung zum Webserver möglich.
+  Bereits erfolglos versuchte Ansätze:
+     - minikube tunnel
+     - NodePort
+     - Nginx konfiguration ändern
+     - neu aufsetzten des clusters
+     - Überprüfung und Exposen der Container Ports
+     - Port Forwarding in skaffold
+  
+ 
 - Webserver: app.py neu aufsetzen, Verbindung mit Postgres-Server, Kafka und Cacheserver testen. 
 - HDFS-Dockerfile implementieren und testen
 - Verbindung zwischen allen Elementen herstellen und Testen (Ports, Protokolle, Schnittstellen etc.)
