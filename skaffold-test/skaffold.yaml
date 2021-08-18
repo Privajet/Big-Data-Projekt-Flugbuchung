@@ -16,33 +16,25 @@ build:
     context: Docker_Image_App
     docker:
       dockerfile: Dockerfile
-  - image: ngix
-    context: ngix
+  - image: nginx
+    context: nginx
     docker:
       dockerfile: Dockerfile
 deploy:
   kubectl:
     manifests:
-    #- kafka-service.yaml
+    - kafka-service.yaml
     - memchached_full.yaml
-    - Docker_Image_App/flask-app-service.yaml
     - mongo.yaml
     - zookeeper.yml
     - zooservice.yml
+    - Docker_Image_App/flask-app-service.yaml
     - Docker_Image_App/flask_app_deployment.yaml
     - Docker_Image_Postgres/deployment.yaml
     - dockertestapp/deployment.yaml
-    - ngix\deployment.yaml
+    - nginx/deployment.yaml
 portForward:
 - resourceType: service
-  resourceName: ngix
+  resourceName: webserver
   port: 8080
-  # das ist der Port des Pods/Services auf den weitergeleitet wird
-  localPort: 9000
-  # Das ist der Port der von der lokalen Maschine aus angesrpchen wird
-#- resourceType: service
-#  resourceName: flask-service
-#  port: 5001
-  # das ist der Port des Pods/Services auf den weitergeleitet wird
-#  localPort: 9001
-  # Das ist der Port der von der lokalen Maschine aus angesrpchen wird
+  localPort: 8080 # *Optional*

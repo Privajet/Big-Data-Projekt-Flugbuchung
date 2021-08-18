@@ -5,15 +5,25 @@ services:
         build: ./Docker_Image_Postgres
         ports:
             -5001:80
-    Webserver-service:
+    Webserver:
         build:  ./Docker_Image_App
-        ports:
-          -5000:5000
+       # links:
+       #     - db
+       #     - memcached
+         
           
-    nginx:
-    type: LoadBalancer
-    build: ./nginx
+    # Begin: Nginx
+  # Nginx reverse proxy
+  loadbalancer:
+    image: nginx:alpine
     ports:
-    - "8080:5001"
+      - "8080:8080"
+    # Configuration file
+    volumes:
+      - ./nginx-load-balance.conf:/nginx/nginx.conf
+    links:
+      - Webserver
+    # Determines startup sequence
     depends_on:
-    - Webserver-service
+      - Webserver
+  # End: Nginx
