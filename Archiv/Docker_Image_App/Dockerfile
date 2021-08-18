@@ -1,14 +1,13 @@
-FROM python:3.7.3-stretch
-# this is required for hot reload
-ENV FLASK_DEBUG=1
-ENV FLASK_APP hello.py
-
-COPY ./hello.py /app/hello.py
-COPY requirements.txt .
-RUN pip install -r requirements.txt
-WORKDIR /app
-EXPOSE 32410
+FROM busybox 
 EXPOSE 5000
-EXPOSE 5001
-ENTRYPOINT ["flask"]
-CMD ["run", "--host=0.0.0.0"]
+COPY startup.sh ./
+RUN mkdir -p /app_data
+RUN yum -y install wget
+RUN apt-get update && apt-get install -y python3 python3-pip
+COPY app_data/ /app_data
+WORKDIR /app_data
+RUN pip3 install -r requirements.txt
+WORKDIR /
+CMD ["./startup.sh"]  
+
+ 

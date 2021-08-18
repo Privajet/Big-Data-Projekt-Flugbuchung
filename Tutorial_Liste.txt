@@ -1,5 +1,0 @@
-
-
-https://www.magalix.com/blog/kafka-on-kubernetes-and-deploying-best-practice
-
-https://github.com/anikm1987/skaffold-kubernetes
