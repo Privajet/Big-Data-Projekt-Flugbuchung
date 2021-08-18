@@ -21,16 +21,16 @@ deploy:
     manifests:
    # - kafka-service.yaml
    # - memchached_full.yaml
-   # - nginx-service.yaml
-   # - nginx.yaml
+    - nginx-service.yaml
+    - nginx.yaml
     #- zookeeper.yml
-   # - zooservice.yml
-    #- Docker_Image_Postgres/deployment.yaml
+    #- zooservice.yml
+    - Docker_Image_Postgres/deployment.yaml
     - dockertestapp/deployment.yaml
     - webapp/flask-app-service.yaml
     - webapp/flask_app_deployment.yaml
 portForward:
   - resourceType: service
-    resourceName: webserver
+    resourceName: nginx
     port: 8080
     localPort: 9000
