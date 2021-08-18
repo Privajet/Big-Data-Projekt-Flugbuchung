@@ -1,10 +1,11 @@
 # To Do
   
-- Webserver: app.py/node.js neu aufsetzen, Verbindung mit memcached, Postgres-Server, Kafka und Cacheserver testen. 
+- Webserver: app.py/node.js neu aufsetzen :heavy_check_mark:
+- Verbindung mit memcached, Postgres-Server, Kafka und Cacheserver testen. 
 - HDFS implementieren und testen
 - Verbindung zwischen allen Elementen herstellen und Testen (Ports, Protokolle, Schnittstellen etc.)
-  -Host-Loadbalancer-Webapp
-  -Webapp-Cacheserver
+  -Host-Loadbalancer-Webapp :heavy_check_mark:
+  -Webapp-Cacheserver 
   -Webapp-DB-Server
   -Webapp-Kafka
   -Kafka-HDFS
