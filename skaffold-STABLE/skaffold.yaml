@@ -1,0 +1,36 @@
+apiVersion: skaffold/v2beta21
+kind: Config
+metadata:
+  name: skaffold-test
+build:
+  artifacts:
+  - image: docker-image-postgres
+    context: Docker_Image_Postgres
+    docker:
+      dockerfile: Dockerfile
+  - image: dockertestapp
+    context: dockertestapp
+    docker:
+      dockerfile: Dockerfile
+  - image: flaskapp
+    context: webapp
+    docker:
+      dockerfile: Dockerfile
+deploy:
+  kubectl:
+    manifests:
+   # - kafka-service.yaml
+   # - memchached_full.yaml
+   # - nginx-service.yaml
+   # - nginx.yaml
+    #- zookeeper.yml
+   # - zooservice.yml
+    #- Docker_Image_Postgres/deployment.yaml
+    - dockertestapp/deployment.yaml
+    - webapp/flask-app-service.yaml
+    - webapp/flask_app_deployment.yaml
+portForward:
+  - resourceType: service
+    resourceName: webserver
+    port: 8080
+    localPort: 9000

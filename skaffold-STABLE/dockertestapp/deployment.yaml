@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: dockertestapp
+  labels:
+    app: dockertestapp
+spec:
+  ports:
+  - port: 5001
+    protocol: TCP
+  clusterIP: None
+  selector:
+    app: dockertestapp
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dockertestapp
+  labels:
+    app: dockertestapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dockertestapp
+  template:
+    metadata:
+      labels:
+        app: dockertestapp
+    spec:
+      containers:
+      - name: dockertestapp
+        image: dockertestapp

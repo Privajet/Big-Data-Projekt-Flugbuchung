@@ -1,0 +1,29 @@
+version: "3.7"
+
+services: 
+    datenbank-service:
+        build: ./Docker_Image_Postgres
+        ports:
+         - "5001:80"
+    webserver:
+        build: webapp/
+       # links:
+       #     - db
+       #     - memcached 
+         
+            
+    # Begin: Nginx
+  # Nginx reverse proxy
+    loadbalancer:
+        image: nginx:alpine
+        ports:
+          - "8080:8080"
+        # Configuration file
+        volumes:
+          - ./nginx-load-balance.conf:/etc/nginx/nginx.conf:ro
+        links:
+          - webserver
+        # Determines startup sequence
+        #depends_on:
+         # - webserver
+      # End: Nginx

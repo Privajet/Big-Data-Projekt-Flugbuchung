@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod 
+metadata:
+	name: code
+spec: 
+	containers:
+	- name: code
+	  image: gcr.io/k8s-skaffold/hello-world
+	  
+	
