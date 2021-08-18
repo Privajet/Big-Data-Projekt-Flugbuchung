@@ -1,23 +1,7 @@
 # To Do
-- test des Webservers
-  *minikube service flask-service --url* gibt die richtige addresse aus
-  siehe https://codingbee.net/tutorials/kubernetes/services-nodeport
   
-  Erklärung der Verschiedenen Ports:
-  https://matthewpalmer.net/kubernetes-app-developer/articles/service-kubernetes-example-tutorial.html
-  
-  Problem: keine Verbindung zum Webserver möglich.
-  Bereits erfolglos versuchte Ansätze:
-     - minikube tunnel
-     - NodePort
-     - Nginx konfiguration ändern
-     - neu aufsetzten des clusters
-     - Überprüfung und Exposen der Container Ports
-     - Port Forwarding in skaffold
-  
- 
-- Webserver: app.py neu aufsetzen, Verbindung mit Postgres-Server, Kafka und Cacheserver testen. 
-- HDFS-Dockerfile implementieren und testen
+- Webserver: app.py/node.js neu aufsetzen, Verbindung mit memcached, Postgres-Server, Kafka und Cacheserver testen. 
+- HDFS implementieren und testen
 - Verbindung zwischen allen Elementen herstellen und Testen (Ports, Protokolle, Schnittstellen etc.)
   -Host-Loadbalancer-Webapp
   -Webapp-Cacheserver
@@ -60,12 +44,13 @@ Wird über Kafka realisiert. Hierzu wird ein pod mit Zookeeper zur Kafka-verwalt
 ### Voraussetzungen
 Folgende Programme müssen installiert sein:
 - docker 
-- minikube und *minikube tunnel* aktiviert
+- minikube (und *minikube tunnel* aktiviert)-> glaube mit skaffold nicht mehr nötig?
 - skaffold 
 - das ganze andere Zeugs auch
 
 ### Anleitung
-1. *skaffold dev* im Ordner mit der Skaffold.yaml ausführen
-2. fertig.
+1. **skaffold dev --port-forward** im Ordner mit der Skaffold.yaml ausführen
+2. auf localhost:9000 aufrufen
+3. fertig.
 
 
