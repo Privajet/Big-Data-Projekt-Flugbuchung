@@ -1,0 +1,5 @@
+portForward:
+  - resourceType: service
+    resourceName: webserver
+    port: 8080
+    localPort: 9000

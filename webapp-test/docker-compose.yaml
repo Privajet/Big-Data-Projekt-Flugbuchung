@@ -1,0 +1,50 @@
+# Begin: Mysql
+version: "3.7"
+
+services:
+  # MySQL service
+  # db:
+    # image: mysql
+    # environment:
+      # # Set username/password
+      # MYSQL_ROOT_PASSWORD: mysecretpw
+      # MYSQL_DATABASE: sportsdb
+    # volumes:
+      # # Populate DB with data
+      # - ./mysql-data.sql:/docker-entrypoint-initdb.d/mysql-data.sql
+  # # End: Mysql
+
+  # # Begin: Memcached
+  # # Memcached
+  # memcached:
+    # image: memcached:alpine
+  # # End: Memcached
+
+  #Begin: App
+  # Your application
+  web:
+    build: app/
+    #links:
+      # - db
+      # - memcached
+    # # Determines startup sequence
+    # depends_on:
+      # - db
+      # - memcached
+  # End: App
+
+  # Begin: Nginx
+  # Nginx reverse proxy
+  loadbalancer:
+    image: nginx:alpine
+    ports:
+      - "8080:8080"
+    # Configuration file
+    volumes:
+      - ./nginx-load-balance.conf:/etc/nginx/nginx.conf:ro
+    # links:
+      # - web
+    # # Determines startup sequence
+    # depends_on:
+      #- web
+  # End: Nginx

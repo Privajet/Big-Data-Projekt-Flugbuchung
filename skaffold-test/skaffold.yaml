@@ -13,28 +13,24 @@ build:
     docker:
       dockerfile: Dockerfile
   - image: flaskapp
-    context: Docker_Image_App
-    docker:
-      dockerfile: Dockerfile
-  - image: nginx
-    context: nginx
+    context: webapp
     docker:
       dockerfile: Dockerfile
 deploy:
   kubectl:
     manifests:
-    - kafka-service.yaml
-    - memchached_full.yaml
-    - mongo.yaml
-    - zookeeper.yml
-    - zooservice.yml
-    - Docker_Image_App/flask-app-service.yaml
-    - Docker_Image_App/flask_app_deployment.yaml
-    - Docker_Image_Postgres/deployment.yaml
+   # - kafka-service.yaml
+   # - memchached_full.yaml
+   # - nginx-service.yaml
+   # - nginx.yaml
+    #- zookeeper.yml
+   # - zooservice.yml
+    #- Docker_Image_Postgres/deployment.yaml
     - dockertestapp/deployment.yaml
-    - nginx/deployment.yaml
+    - webapp/flask-app-service.yaml
+    - webapp/flask_app_deployment.yaml
 portForward:
-- resourceType: service
-  resourceName: webserver
-  port: 8080
-  localPort: 8080 # *Optional*
+  - resourceType: service
+    resourceName: webserver
+    port: 8080
+    localPort: 9000
