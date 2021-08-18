@@ -34,7 +34,7 @@ Der Webserver schreibt bei Zugriff die empfangenen Daten auf einen Cacheserver u
 ### Webserver
 Die Flask-App läuft auf einem Docker Container und gibt eine einfache Webseite aus auf der die Flugdaten angezeigt werden sowie die aktuellen Preise mit einem Klick abgefragt werden können. Beim start werden 2 Webserver erzeugt, die aber automatisch nach Auslastung hochskaliert werden können. (Optional: Buchungsoption mit Datenbankeintrag)
 ### Postgres-Datenbank
-Die Datenbank läuft auf einem Docker-Container mit postgres image und bietet Zugriff auf die Flugdaten über den Port 3000.
+Die Datenbank läuft auf einem Docker-Container mit postgres image und bietet Zugriff auf die Flugdaten über den Port 5001.
 Benutzername und Passwort sind "Postgres"
 ### Big Data Messaging
 Wird über Kafka realisiert. Hierzu wird ein pod mit Zookeeper zur Kafka-verwaltung gestartet und zwei Pods um Kafka-Topics zu lesen und zu beschreiben.
@@ -51,7 +51,7 @@ Folgende Programme müssen installiert sein:
 
 ### Anleitung
 1. **skaffold dev --port-forward** im Ordner mit der Skaffold.yaml ausführen
-2. auf localhost:9000 aufrufen
+2. auf localhost:8080 aufrufen
 3. fertig.
 
 
