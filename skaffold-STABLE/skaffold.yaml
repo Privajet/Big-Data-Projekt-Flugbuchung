@@ -29,8 +29,12 @@ deploy:
     - dockertestapp/deployment.yaml
     - webapp/flask-app-service.yaml
     - webapp/flask_app_deployment.yaml
-portForward:
-  - resourceType: service
-    resourceName: nginx
-    port: 8080
-    localPort: 9000
+# portForward:
+  # - resourceType: service
+    # resourceName: webserver
+    # port: 8080
+    # localPort: 9000
+  # - resourceType: service
+    # resourceName: nginx
+    # port: 8080
+    # localPort: 9001
