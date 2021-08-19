@@ -53,6 +53,7 @@ Folgende Programme müssen installiert sein:
 - docker 
 - minikube (und *minikube tunnel* aktiviert)-> glaube mit skaffold nicht mehr nötig?
 - skaffold 
+- helm 
 - das ganze andere Zeugs auch
 
 ### Anleitung

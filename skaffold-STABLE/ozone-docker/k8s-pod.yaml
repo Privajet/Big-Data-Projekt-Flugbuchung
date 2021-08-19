@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod 
+metadata:
+	name: ozone
+spec: 
+	containers:
+	- name: ozone
+	  image: gcr.io/apache/ozone
+	  
+	

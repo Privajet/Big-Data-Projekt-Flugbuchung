@@ -16,6 +16,10 @@ build:
     context: webapp
     docker:
       dockerfile: Dockerfile
+  - image: ozone
+    context: ozone-docker
+    docker:
+      dockerfile: Dockerfile
 deploy:
   kubectl:
     manifests:
@@ -29,6 +33,7 @@ deploy:
     - dockertestapp/deployment.yaml
     - webapp/flask-app-service.yaml
     - webapp/flask_app_deployment.yaml
+    - ozone-docker/deployment.yaml
 # portForward:
   # - resourceType: service
     # resourceName: webserver
