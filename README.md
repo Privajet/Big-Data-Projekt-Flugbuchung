@@ -1,3 +1,9 @@
+# Status 
+
+![status](https://user-images.githubusercontent.com/77491801/130101862-9f7106c0-c36c-4182-bbd4-4a28e61025ed.jpg)
+
+
+
 # To Do
   
 - Webserver: app.py/node.js neu aufsetzen :heavy_check_mark:
