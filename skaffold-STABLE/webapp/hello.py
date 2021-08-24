@@ -100,7 +100,11 @@ def podtest():
     except Exception as e:
         data=e
         return emoji.emojize('Datenbank :poop:', use_aliases=True)     
-    
+
+@app.route('/your_flask_funtion')
+def your_flask_funtion():
+    print("coolio")
+    return emoji.emojize('Datenbank :poop:', use_aliases=True)
       
   
   

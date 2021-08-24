@@ -1,3 +1,5 @@
+
+<h1>Available flights</h1>
 {% for item in data %}
 <tr>
     <td>{{item[0]}}</td>
@@ -6,6 +8,27 @@
     <td>{{item[3]}}</td>
     <td>{{item[4]}}</td>
     <td>{{item[5]}}</td>
-    I
+    <div>
+        <form>
+            <a href=/your_flask_funtion><input type=”button” value=Book></a>
+        </form>
+    </div>
+    <br />
 </tr>
 {% endfor %}
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type=text/javascript>
+        $(function() {
+          $('a#test').on('click', function(e) {
+            e.preventDefault()
+            $.getJSON('/kafka',
+                function(data) {
+              //do nothing
+            });
+            return false;
+          });
+        });
+</script>
+
