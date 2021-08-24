@@ -1,0 +1,42 @@
+apiVersion: skaffold/v2beta21
+kind: Config
+metadata:
+  name: skaffold-stable
+build:
+  artifacts:
+  - image: docker-image-postgres
+    context: Docker_Image_Postgres
+    docker:
+      dockerfile: Dockerfile
+  - image: dockertestapp
+    context: dockertestapp
+    docker:
+      dockerfile: Dockerfile
+  - image: flaskapp
+    context: webapp
+    buildpacks:
+      builder: gcr.io/buildpacks/builder:v1
+  - image: farberg/popular-slides
+    context: web-app
+
+  - image: farberg/popular-slides-spark
+    context: spark-app
+  # - image: ozone
+  #   context: ozone-docker
+  #   docker:
+  #     dockerfile: Dockerfile
+deploy:
+  kubectl:
+    manifests:
+    - k8s/*.yaml
+  #   - kafka-service.yaml
+  #   - zookeeper.yml
+  #   - zooservice.yml
+    - dockertestapp/deployment.yaml
+    # - memchached_full.yaml
+    # - nginx-service.yaml
+    # - nginx.yaml
+    # - Docker_Image_Postgres/deployment.yaml
+    # - ozone-docker/deployment.yaml
+    # - webapp/flask-app-service.yaml
+    # - webapp/flask_app_deployment.yaml

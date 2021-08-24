@@ -1,30 +1,19 @@
-## Beschreibung des Postgres-Services
-# apiVersion: v1
-# kind: Service
-# metadata:
-  # name: postgres
-  # labels:
-    # app: postgres
-# spec:
-  # ports:
-    # - protocol: TCP
-    # # auf diesem Port ist der Service ansprechbar
-      # port: 5432
-      # targetPort: 5432
-  # selector:
-    # app: postgres
-    
+# Beschreibung des Postgres-Services
 apiVersion: v1
 kind: Service
 metadata:
   name: postgres
+  labels:
+    app: postgres
 spec:
+  ports:
+    - protocol: TCP
+    # auf diesem Port ist der Service ansprechbar
+      port: 5432
+      targetPort: 5432
   selector:
     app: postgres
-  type: LoadBalancer
-  ports:
-    - port: 5432
-      targetPort: 5432
+  
 ---
 # Beschreibung des Postgres-Deployments
 apiVersion: apps/v1

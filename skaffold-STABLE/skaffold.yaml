@@ -16,24 +16,36 @@ build:
     context: webapp
     docker:
       dockerfile: Dockerfile
-  - image: ozone
-    context: ozone-docker
+  - image: hadoop
+    context: hadoop
     docker:
       dockerfile: Dockerfile
+  # - image: spark-bitnami
+  #   context: spark-bitnami
+  # - image: ozone
+  #   context: ozone-docker
+  #   docker:
+  #     dockerfile: Dockerfile
 deploy:
   kubectl:
     manifests:
-   # - kafka-service.yaml
-   # - memchached_full.yaml
-    - nginx-service.yaml
-    - nginx.yaml
-    #- zookeeper.yml
-    #- zooservice.yml
-    - Docker_Image_Postgres/deployment.yaml
+    - memchached_full.yaml
     - dockertestapp/deployment.yaml
+    # - nginx-service.yaml
+    # - nginx.yaml
+    - Docker_Image_Postgres/deployment.yaml
     - webapp/flask-app-service.yaml
     - webapp/flask_app_deployment.yaml
-    - ozone-docker/deployment.yaml
+
+  # Folgende Pods starten bzw laufen noch nicht stabil
+
+  # - hadoop/deployment.yaml
+  # - ozone-docker/deployment.yaml'
+  # - zookeeper.yml
+  # - kafka-service.yaml
+  # - zooservice.yml
+
+  # Port Forwarding wird wohl nicht benötigt
 # portForward:
   # - resourceType: service
     # resourceName: webserver

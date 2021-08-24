@@ -7,6 +7,7 @@ COPY ./hello.py /app/hello.py
 COPY ./rr.mp3  /app/rr.mp3
 COPY ./rr.mp3  /app/templates/rr.mp3
 COPY ./index.html /app/templates/index.html
+COPY ./index3.html /app/templates/index3.html
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 WORKDIR /app
