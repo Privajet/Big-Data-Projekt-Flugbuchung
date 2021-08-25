@@ -70,14 +70,16 @@ Folgende Programme müssen installiert sein:
 
 ## Debugging-Tipps
 ### Nützliche Befehle 
-*k delete all --all*
-Kurzer Befehl zum löschen und Neustart der Pods. Geht schneller als ein Minikube-Neustart.
+*k delete all --all*  
+Kurzer Befehl zum löschen und Neustart der Pods. Geht schneller als ein Minikube-Neustart.  
 :warning: *nicht* stattdessen *k delete all --all --all-namespaces* ausführen. Dies würde auch den DNS-Pod löschen, der dann im Hintergrund als einziger **nicht** neu startet.
 
-*minikube dashboard --url*
+
+*minikube dashboard --url*  
 Zugriff auf das Minikube-Dashboard
 
-* while ($true) {Clear-Host; k get all; sleep 10}*
+
+*while ($true) {Clear-Host; k get all; sleep 10}*  
 Intervallmäßige Überwachung aller pods und services in der Windows-Powershell
 
 ### Sonstiges
