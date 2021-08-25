@@ -71,6 +71,7 @@ Folgende Programme müssen installiert sein:
 ## Debugging-Tipps
 ### Nützliche Befehle 
 *k delete all --all*
+Kurzer Befehl zum löschen und Neustart der Pods. Geht schneller als ein Minikube-Neustart.
 :warning: *nicht* stattdessen *k delete all --all --all-namespaces* ausführen. Dies würde auch den DNS-Pod löschen, der dann im Hintergrund als einziger **nicht** neu startet.
 
 *minikube dashboard --url*
