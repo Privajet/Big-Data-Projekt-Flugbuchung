@@ -13,15 +13,15 @@
 - Kafka  
 - HDFS  
 - implementieren und testen 
-- Verbindung zwischen allen Elementen herstellen und Testen (Ports, Protokolle, Schnittstellen etc.)
-  -Host-Loadbalancer-Webapp :heavy_check_mark:
-  -Webapp-Cacheserver 
-  -Webapp-DB-Server
-  -Webapp-Kafka
-  -Kafka-HDFS
-  -Kafka/BigData-DB
-- Logik in Spark
-- Skalierung Webserver
+- Verbindung zwischen allen Elementen herstellen und Testen (Ports, Protokolle, Schnittstellen etc.)  
+  -Host-Loadbalancer-Webapp :heavy_check_mark:   
+  -Webapp-Cacheserver   
+  -Webapp-DB-Server  
+  -Webapp-Kafka  
+  -Kafka-HDFS  
+  -Kafka/BigData-DB  
+- Logik in Spark  
+- Skalierung Webserver  
   
 - Doku + Code-Kommentare
 - Video
