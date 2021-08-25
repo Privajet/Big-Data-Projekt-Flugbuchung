@@ -16,7 +16,7 @@
 - Verbindung zwischen allen Elementen herstellen und Testen (Ports, Protokolle, Schnittstellen etc.)  
   -Host-Loadbalancer-Webapp :heavy_check_mark:   
   -Webapp-Cacheserver   
-  -Webapp-DB-Server  
+  -Webapp-DB-Server  :heavy_check_mark:  
   -Webapp-Kafka  
   -Kafka-HDFS  
   -Kafka/BigData-DB  
@@ -50,6 +50,8 @@ Die Datenbank läuft auf einem Docker-Container mit postgres image und bietet Zu
 Der Benutzername ist "Postgres" und das Passwort "postgres"
 ### Big Data Messaging
 Wird über Kafka realisiert. Hierzu wird ein pod mit Zookeeper zur Kafka-verwaltung gestartet und zwei Pods um Kafka-Topics zu lesen und zu beschreiben.
+### Portainer
+Als GUI um den Status der Pods übersichtlich zu überwachen. Portainer lässt sich auf **localhost:9000** starten. Alternativ kann auch das minikube-Dashboard verwendet werden (siehe *Nützliche Befehle*)
 
 
 ## Installation
