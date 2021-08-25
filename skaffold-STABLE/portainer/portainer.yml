@@ -10,6 +10,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: portainer-sa-clusteradmin
+  namespace: portainer
   labels:
     app.kubernetes.io/name: portainer
     app.kubernetes.io/instance: portainer
@@ -20,6 +21,7 @@ kind: "PersistentVolumeClaim"
 apiVersion: "v1"
 metadata:
   name: portainer
+  namespace: portainer  
   annotations:
     volume.alpha.kubernetes.io/storage-class: "generic"
   labels:
@@ -64,16 +66,18 @@ metadata:
     app.kubernetes.io/instance: portainer
     app.kubernetes.io/version: "ce-latest-ee-2.7.0"
 spec:
-  type: LoadBalancer
+  type: NodePort
   ports:
     - port: 9000
       targetPort: 9000
       protocol: TCP
       name: http
-    - port: 8000
-      targetPort: 8000
+      nodePort: 30777
+    - port: 30776
+      targetPort: 30776
       protocol: TCP
       name: edge
+      nodePort: 30776
   selector:
     app.kubernetes.io/name: portainer
     app.kubernetes.io/instance: portainer
@@ -113,7 +117,8 @@ spec:
       containers:
         - name: portainer
           image: "portainer/portainer-ce:latest"
-          imagePullPolicy: Always          
+          imagePullPolicy: Always
+          args:  [ '--tunnel-port','30776' ]          
           volumeMounts:
             - name: data
               mountPath: /data

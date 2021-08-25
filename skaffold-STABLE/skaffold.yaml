@@ -16,10 +16,10 @@ build:
     context: webapp
     docker:
       dockerfile: Dockerfile
-  - image: hadoop
-    context: hadoop
-    docker:
-      dockerfile: Dockerfile
+  # - image: hadoop
+  #   context: hadoop
+  #   docker:
+  #     dockerfile: Dockerfile
   # - image: spark-bitnami
   #   context: spark-bitnami
   # - image: ozone
@@ -30,12 +30,14 @@ deploy:
   kubectl:
     manifests:
     - memchached_full.yaml
+    - portainer/portainer.yml
     - dockertestapp/deployment.yaml
-    # - nginx-service.yaml
-    # - nginx.yaml
     - Docker_Image_Postgres/deployment.yaml
     - webapp/flask-app-service.yaml
     - webapp/flask_app_deployment.yaml
+    - portainer/portainer.yml
+    # - nginx-service.yaml
+    # - nginx.yaml
 
   # Folgende Pods starten bzw laufen noch nicht stabil
 
