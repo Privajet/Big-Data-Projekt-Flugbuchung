@@ -2,10 +2,14 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 import emoji
 import socket
 import psycopg2
+
+# Lennart, 26.8
 # from flask_caching import Cache
 
 app=Flask(__name__)
-       
+# cache = Cache()
+
+
 # Test Zugriff auf den Webserver
 @app.route('/')
 def Index():
