@@ -23,7 +23,7 @@ def Index():
 def test():
    # cache_servers = os.environ.get ??? ('MEMCACHIER_SERVERS')
    # if cache_servers == None:
-       # cache.init_app(app, config={'CACHE_TYPE': 'simple'})
+       # cache.init_app(app, config={'CACHE_TYPE': 'memcached'})
    # else:
    #         cache.init_app(app,
    #         config={'CACHE_TYPE': 'memcached',
