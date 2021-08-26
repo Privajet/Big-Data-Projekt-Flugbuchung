@@ -11,7 +11,7 @@ services:
        #     - db
        #     - memcached 
        
-# Lennart Fertig, 26.08.       
+# Lennart, 26.08.       
 # memcached:
 # image: memcached
 # ports:
