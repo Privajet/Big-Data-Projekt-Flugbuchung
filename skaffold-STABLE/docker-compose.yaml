@@ -11,11 +11,12 @@ services:
        #     - db
        #     - memcached 
        
-# Lennart, 26.08.       
-# memcached:
-# image: memcached
-# ports:
-#    - "11211:11211"
+# Lennart, 26.08.
+
+       # Cache:
+       # image: memcached
+       # ports:
+       #    - "11211:11211"
          
             
     # Begin: Nginx
