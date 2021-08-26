@@ -1,9 +1,9 @@
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import *
 from pyspark.sql.types import IntegerType, StringType, StructType, TimestampType
-import mysqlx
+import psycopg2
 
-dbOptions = {"host": "my-app-mysql-service", 'port': 33060, "user": "root", "password": "mysecretpw"}
+dbOptions = {"host": "postgres", 'port': 5432, "user": "Postgres", "password": "postgres"}
 dbSchema = 'popular'
 windowDuration = '5 minutes'
 slidingDuration = '1 minute'
@@ -79,19 +79,13 @@ consoleDump = popular \
 def saveToDatabase(batchDataframe, batchId):
     # Define function to save a dataframe to mysql
     def save_to_db(iterator):
-        # Connect to database and use schema
-        session = mysqlx.get_session(dbOptions)
-        session.sql("USE popular").execute()
-
-        for row in iterator:
-            # Run upsert (insert or update existing)
-            sql = session.sql("INSERT INTO popular "
-                              "(mission, count) VALUES (?, ?) "
-                              "ON DUPLICATE KEY UPDATE count=?")
-            sql.bind(row.mission, row.views, row.views).execute()
-
-        session.close()
-
+        # Connect to database and use schema 
+        con = psycopg2.connect("host=postgres port=5432 dbname=kranichairline_db user=postgres password=postgres")
+        cur = con.cursor()
+        cur.execute("UPDATE flights SET price= price + (price * 10 / 100) ")
+        cur.execute("select * from flights")
+        data = cur.fetchall()
+        cur.close()      
     # Perform batch UPSERTS per data partition
     batchDataframe.foreachPartition(save_to_db)
 

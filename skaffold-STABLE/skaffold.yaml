@@ -16,6 +16,8 @@ build:
     context: webapp
     docker:
       dockerfile: Dockerfile
+  # - image: popular-flights-spark
+  #     context: spark-app
   # - image: hadoop
   #   context: hadoop
   #   docker:
