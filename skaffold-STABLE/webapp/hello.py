@@ -17,18 +17,43 @@ def Index():
     return render_template('index.html')
 
 
-# Test Cacheserver
-# @ Lennart und Felix: hier könnt ihr euren code einfügen und den server mal testen
+#   Test Cacheserver, Lennart, 26.08.
 #   Die Verbindung zur Datenbank steht bereits.
 @app.route('/cachetest')
 def test():
-    # habe das hier gefunden, vielleicht könnt ihr das verwenden
-    # config = {
-    #     "DEBUG": True,          # some Flask specific configs
-    #     "CACHE_TYPE": "MemcachedCache",  # Flask-Caching related configs
-    #     "CACHE_DEFAULT_TIMEOUT": 300,
-    #     "CACHE_MEMCACHED_SERVERS":"memcached",
-    # }
+   # cache_servers = os.environ.get ??? ('MEMCACHIER_SERVERS')
+   # if cache_servers == None:
+       # cache.init_app(app, config={'CACHE_TYPE': 'simple'})
+   # else:
+   #         cache.init_app(app,
+   #         config={'CACHE_TYPE': 'memcached',
+   #                 'CACHE_MEMCACHED_SERVERS': "memcached",
+   #                 'CACHE_OPTIONS': { 'behaviors': {
+   #                     # Faster IO
+   #                     'tcp_nodelay': True,
+   #                     # Keep connection alive
+   #                     'tcp_keepalive': True,
+   #                     # Timeout for set/get requests
+   #                     'connect_timeout': 2000, # ms
+   #                     'send_timeout': 750 * 1000, # us
+   #                     'receive_timeout': 750 * 1000, # us
+   #                     '_poll_timeout': 2000, # ms
+   #                     # Better failover
+   #                     'ketama': True,
+   #                     'remove_failed': 1,
+   #                     'retry_timeout': 2,
+   #                     'dead_timeout': 30}}})
+# --------------------------------
+   # config = {
+   # DBUG": True,          # some Flask specific configs
+   #"CACHE_TYPE": "Memcached"
+   #"CACHE_DEFAULT_TIMEOUT": 300
+# }
+
+
+# Tell Flask to use the above defined config
+# app.config.from_mapping(config) 
+# cache = Cache(app)
 
     try: 
         con = psycopg2.connect("host=postgres port=5432 dbname=kranichairline_db user=postgres password=postgres")
