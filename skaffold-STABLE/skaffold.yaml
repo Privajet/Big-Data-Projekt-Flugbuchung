@@ -1,7 +1,7 @@
 apiVersion: skaffold/v2beta21
 kind: Config
 metadata:
-  name: skaffold-test
+  name: skaffold-stable
 build:
   artifacts:
   - image: docker-image-postgres
@@ -16,46 +16,49 @@ build:
     context: webapp
     docker:
       dockerfile: Dockerfile
-  # - image: popular-flights-spark
-  #     context: spark-app
-  # - image: hadoop
-  #   context: hadoop
+  # - image: kafka
+  #   context: kafka
   #   docker:
   #     dockerfile: Dockerfile
-  # - image: spark-bitnami
-  #   context: spark-bitnami
-  # - image: ozone
-  #   context: ozone-docker
+  # - build:
+  #   artifacts:
+  #     - image: farberg/popular-slides
+  #       context: web-app
+
+  #     - image: farberg/popular-slides-spark
+  #       context: spark-app
+  # - image: spark-app
+  #   context: spark-app
   #   docker:
   #     dockerfile: Dockerfile
 deploy:
   kubectl:
     manifests:
-    - memchached_full.yaml
-    - portainer/portainer.yml
-    - dockertestapp/deployment.yaml
-    - Docker_Image_Postgres/deployment.yaml
-    - webapp/flask-app-service.yaml
-    - webapp/flask_app_deployment.yaml
-    - portainer/portainer.yml
+    - kafka/zookeeper_micro.yml
+    - kafka/kafka_micro.yaml
+    # - memchached_full.yaml
     # - nginx-service.yaml
+    # - webapp/flask_app_deployment.yaml
+    # - Docker_Image_Postgres/deployment.yaml
     # - nginx.yaml
-
-  # Folgende Pods starten bzw laufen noch nicht stabil
-
-  # - hadoop/deployment.yaml
-  # - ozone-docker/deployment.yaml'
-  # - zookeeper.yml
-  # - kafka-service.yaml
-  # - zooservice.yml
-
-  # Port Forwarding wird wohl nicht benötigt
-# portForward:
-  # - resourceType: service
-    # resourceName: webserver
-    # port: 8080
-    # localPort: 9000
-  # - resourceType: service
-    # resourceName: nginx
-    # port: 8080
-    # localPort: 9001
+    # - portainer/portainer.yml
+    - dockertestapp/deployment.yaml
+    # - webapp/flask-app-service.yaml
+    # - kafka/deployment.yaml
+    # - role-binding.yml
+    # - service-account.yml
+    # - kafka-service.yaml
+    # - kafka-broker.yaml
+    # - zookeeper.yml
+    # - zooservice.yml
+    # - hadoop/deployment.yaml
+    # - k8s/popular-slides-app.yaml
+    # - k8s/popular-slides-spark.yaml
+    # - ozone-docker/deployment.yaml
+    # - spark-bitnami/deployment.yaml
+# helm:
+#     releases:
+#       - name: my-chart
+#         chartPath: helm
+#         artifactOverrides:
+#           imageKey: gcr.io/my-project/my-image

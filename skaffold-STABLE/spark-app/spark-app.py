@@ -26,7 +26,7 @@ kafkaMessages = spark \
     .option("subscribe", "tracking-data") \
     .option("startingOffsets", "earliest") \
     .load()
-
+########## Hier noch anpassen
 # Define schema of tracking data
 trackingMessageSchema = StructType() \
     .add("mission", StringType()) \
