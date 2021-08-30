@@ -171,10 +171,7 @@ spec:
   volumeClaimTemplates:
   - metadata:
       name: datadir
-    spec:
-      selector:
-        matchLabels:
-          app: kafka 
+    spec: 
       accessModes: [ "ReadWriteOnce" ]
       resources:
         requests:

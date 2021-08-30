@@ -16,6 +16,10 @@ build:
     context: webapp
     docker:
       dockerfile: Dockerfile
+  - image: ozone
+    context: ozone-docker
+    docker:
+      dockerfile: Dockerfile
   # - image: kafka
   #   context: kafka
   #   docker:
@@ -34,18 +38,21 @@ build:
 deploy:
   kubectl:
     manifests:
-    - kafka/zookeeper_micro.yml
-    - kafka/kafka_micro.yaml
+    # - kafka/zookeeper_micro.yml
+    # - kafka/kafka_micro.yaml
     # - memchached_full.yaml
     # - nginx-service.yaml
     # - webapp/flask_app_deployment.yaml
     # - Docker_Image_Postgres/deployment.yaml
     # - nginx.yaml
-    # - portainer/portainer.yml
-    - dockertestapp/deployment.yaml
+     - portainer/portainer.yml
+    # - strimzi-operator.yaml
+    # - dockertestapp/deployment.yaml
     # - webapp/flask-app-service.yaml
     # - kafka/deployment.yaml
     # - role-binding.yml
+    # - kafka-cluster-def.yaml
+    # - test.yaml
     # - service-account.yml
     # - kafka-service.yaml
     # - kafka-broker.yaml
@@ -56,9 +63,8 @@ deploy:
     # - k8s/popular-slides-spark.yaml
     # - ozone-docker/deployment.yaml
     # - spark-bitnami/deployment.yaml
-# helm:
-#     releases:
-#       - name: my-chart
-#         chartPath: helm
-#         artifactOverrides:
-#           imageKey: gcr.io/my-project/my-image
+  helm:
+    releases:
+    - name: kafka-chart
+      chartPath: ./strimzi-helm/
+        

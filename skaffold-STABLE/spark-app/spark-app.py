@@ -83,6 +83,7 @@ def saveToDatabase(batchDataframe, batchId):
         con = psycopg2.connect("host=postgres port=5432 dbname=kranichairline_db user=postgres password=postgres")
         cur = con.cursor()
         cur.execute("UPDATE flights SET price= price + (price * 10 / 100) ")
+        cur.commit()
         cur.execute("select * from flights")
         data = cur.fetchall()
         cur.close()      
