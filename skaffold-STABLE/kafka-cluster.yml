@@ -7,7 +7,7 @@ spec:
     replicas: 1
     listeners:
      - tls: false
-       name: kafka11
+       name: kafka
        port: 29092
        type: loadbalancer
     config:

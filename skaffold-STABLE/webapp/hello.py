@@ -2,9 +2,14 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 import emoji
 import socket
 import psycopg2
-
+#from pymemcache.client import base
+from pymemcache.client.base import Client
+#import time
+from essential_generators import DocumentGenerator
+from kafka import KafkaProducer
 # Lennart, 26.8
 # from flask_caching import Cache
+client = Client('memcached-service')
 
 app=Flask(__name__)
 # cache = Cache()
@@ -21,39 +26,19 @@ def Index():
 #   Die Verbindung zur Datenbank steht bereits.
 @app.route('/cachetest')
 def test():
-   # cache_servers = os.environ.get ??? ('MEMCACHIER_SERVERS')
-   # if cache_servers == None:
-       # cache.init_app(app, config={'CACHE_TYPE': 'memcached'})
-   # else:
-   #         cache.init_app(app,
-   #         config={'CACHE_TYPE': 'memcached',
-   #                 'CACHE_MEMCACHED_SERVERS': "memcached",
-   #                 'CACHE_OPTIONS': { 'behaviors': {
-   #                     # Faster IO
-   #                     'tcp_nodelay': True,
-   #                     # Keep connection alive
-   #                     'tcp_keepalive': True,
-   #                     # Timeout for set/get requests
-   #                     'connect_timeout': 2000, # ms
-   #                     'send_timeout': 750 * 1000, # us
-   #                     'receive_timeout': 750 * 1000, # us
-   #                     '_poll_timeout': 2000, # ms
-   #                     # Better failover
-   #                     'ketama': True,
-   #                     'remove_failed': 1,
-   #                     'retry_timeout': 2,
-   #                     'dead_timeout': 30}}})
-# --------------------------------
-   # config = {
-   # DBUG": True,          # some Flask specific configs
-   #"CACHE_TYPE": "Memcached"
-   #"CACHE_DEFAULT_TIMEOUT": 300
-# }
+    cache_result = client.get('flights')
 
+    if cache_result is None:  #flights nicht verfügbar
+        con = psycopg2.connect("host=postgres port=5432 dbname=kranichairline_db user=postgres password=postgres")
+        cur = con.cursor()
+        cur.execute("select * from flights")
+        data = cur.fetchall()
+        cur.close()
+        client.set('flights', data)
+        return emoji.emojize('Cacheeintrag :poop:', use_aliases=True) 
+    else: 
+        return emoji.emojize('Cacheserver geht :thums_up:', use_aliases=True) 
 
-# Tell Flask to use the above defined config
-# app.config.from_mapping(config) 
-# cache = Cache(app)
 
     try: 
         con = psycopg2.connect("host=postgres port=5432 dbname=kranichairline_db user=postgres password=postgres")
@@ -127,30 +112,22 @@ def podtest():
         return emoji.emojize('Datenbank :poop:', use_aliases=True)     
 
 # Funktion zum Senden der Daten an das Kafka-Topic, die bei Klick des Buttons aufgerufen wird
-@app.route('/your_flask_funtion')
+@app.route('/kafka')
 def your_flask_funtion():
     
     # Vorlage aus Vorlesungs-Skript
 
-    # import time
-    # from essential_generators import DocumentGenerator
-    # from kafka import KafkaProducer
+    #gen = DocumentGenerator()
 
-    # gen = DocumentGenerator()
+    producer = KafkaProducer(
+    bootstrap_servers='my-cluster-kafka-kafka11-bootstrap:29092')
 
-    # producer = KafkaProducer(
-    #     bootstrap_servers='my-cluster-kafka-bootstrap:9092')
-
-    # while True:
-    #     next_msg = gen.sentence()
-    #     print(f"Sending message: {next_msg}")
-    #     future = producer.send("big_data_demo", next_msg.encode())
-    #     result = future.get(timeout=5)
-    #     print(f"Result: {result}")
-    #     time.sleep(2)
-
-    print("coolio")
-    return emoji.emojize('Datenbank :poop:', use_aliases=True)
+    next_click = "ein Klick passiert"
+#     print(f"Sending message: {next_click}")
+    future = producer.send("1337datascience", next_click)
+    result = future.get(timeout=5)
+#     print(f"Result: {result}")
+    return result
 
 ## Hier noch die Abfrage richtig machen dass auch gespeichert wird. So erhöht er zwar die Preise aber die DB-Einträge werden 
 # irgendwie nicht geändert
@@ -169,3 +146,40 @@ def changetest():
         data=e
         return emoji.emojize('Datenbank-Schreiben :poop:', use_aliases=True)      
   
+@app.route('/kafkaread')  
+
+def kafkaread():
+    
+    from kafka import KafkaConsumer
+    # The bootstrap server to connect to
+    bootstrap = 'my-cluster-kafka-kafka-bootstrap:9092'
+    # Create a comsumer instance
+    # cf.
+    print('Starting KafkaConsumer')
+    consumer = KafkaConsumer('1337datascience', # <-- topics
+    bootstrap_servers=bootstrap)
+    # Print out all received messages
+    data=[]
+    for msg in consumer:
+        data.append(msg)
+    return render_template('index3.html', data=data)
+
+
+@app.route('/kafkaread2')  
+
+def kafkaread2():
+    
+    from kafka import KafkaConsumer
+    # The bootstrap server to connect to
+    bootstrap = 'my-cluster-kafka-kafka-bootstrap:9092'
+    # Create a comsumer instance
+    # cf.
+    print('Starting KafkaConsumer')
+    consumer = KafkaConsumer('1337datascience', # <-- topics
+    bootstrap_servers=bootstrap)
+    # Print out all received messages
+    data=[]
+    for msg in consumer:
+        data.append(msg)
+    return data
+

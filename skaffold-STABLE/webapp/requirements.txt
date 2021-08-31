@@ -1,7 +1,9 @@
 Flask==1.0.2
 emoji
-pyjokes
-#flask_caching 
 flask_sqlalchemy
 SQLAlchemy
 psycopg2-binary
+pymemcache.client
+#time
+essential_generators
+kafka-python
