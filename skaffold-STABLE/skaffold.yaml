@@ -38,22 +38,22 @@ build:
 deploy:
   kubectl:
     manifests:
-    # - kafka/zookeeper_micro.yml
-    # - kafka/kafka_micro.yaml
+     - cluster-def.yml
+     - topic_creator.yml
      - memchached_full.yaml
-    # - nginx-service.yaml
      - webapp/flask_app_deployment.yaml
      - Docker_Image_Postgres/deployment.yaml
-    # - nginx.yaml
      - portainer/portainer.yml
+     - webapp/flask-app-service.yaml
+    # - kafka/zookeeper_micro.yml
+    # - kafka/kafka_micro.yaml
+    # - nginx-service.yaml
+    # - nginx.yaml
     # - strimzi-operator.yaml
     # - dockertestapp/deployment.yaml
-     - webapp/flask-app-service.yaml
     # - kafka/deployment.yaml
     # - role-binding.yml
     #  - kafka-cluster-def.yaml
-     - test.yml
-     - topic_creator.yml
     # - service-account.yml
     # - kafka-service.yaml
     # - kafka-broker.yaml
