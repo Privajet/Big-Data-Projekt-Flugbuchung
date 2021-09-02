@@ -2,49 +2,46 @@ apiVersion: skaffold/v2beta21
 kind: Config
 metadata:
   name: skaffold-stable
+# Erstellen der Artefakte
 build:
   artifacts:
   - image: docker-image-postgres
     context: Docker_Image_Postgres
     docker:
       dockerfile: Dockerfile
-  - image: dockertestapp
-    context: dockertestapp
-    docker:
-      dockerfile: Dockerfile
   - image: flaskapp
     context: webapp
     docker:
       dockerfile: Dockerfile
-  - image: ozone
-    context: ozone-docker
-    docker:
-      dockerfile: Dockerfile
-  # - image: kafka
-  #   context: kafka
+  
+  # - image: ozone
+  #   context: ozone-docker
   #   docker:
   #     dockerfile: Dockerfile
-  # - build:
-  #   artifacts:
-  #     - image: farberg/popular-slides
-  #       context: web-app
+  ## Nicht mehr verwendete/ nicht funktionierende Elemente
+  # - image: python-kafka-publisher-demo
+  #   context: python-publisher
+  # - image: python-kafka-subscriber-demo
+  #   context: python-subscriber
+  # - image: dockertestapp
+  #   context: dockertestapp
+  #   docker:
+  #     dockerfile: Dockerfile
 
-  #     - image: farberg/popular-slides-spark
-  #       context: spark-app
-  # - image: spark-app
-  #   context: spark-app
-  #   docker:
-  #     dockerfile: Dockerfile
+# Deployen
 deploy:
   kubectl:
     manifests:
      - cluster-def.yml
-     - topic_creator.yml
      - memchached_full.yaml
      - webapp/flask_app_deployment.yaml
      - Docker_Image_Postgres/deployment.yaml
-     - portainer/portainer.yml
      - webapp/flask-app-service.yaml
+     - portainer/portainer.yml
+
+## Nicht mehr verwendete/ nicht funktionierende Elemente
+    #  - ./python-subscriber/k8s/*
+    #  - ./python-publisher/k8s/*
     # - kafka/zookeeper_micro.yml
     # - kafka/kafka_micro.yaml
     # - nginx-service.yaml
@@ -53,7 +50,7 @@ deploy:
     # - dockertestapp/deployment.yaml
     # - kafka/deployment.yaml
     # - role-binding.yml
-    #  - kafka-cluster-def.yaml
+    # - kafka-cluster-def.yaml
     # - service-account.yml
     # - kafka-service.yaml
     # - kafka-broker.yaml
@@ -62,8 +59,11 @@ deploy:
     # - hadoop/deployment.yaml
     # - k8s/popular-slides-app.yaml
     # - k8s/popular-slides-spark.yaml
+    # - topic_creator.yml
     # - ozone-docker/deployment.yaml
     # - spark-bitnami/deployment.yaml
+
+  # Installation des Kafka-Helm-Charts
   helm:
     releases:
     - name: kafka-chart

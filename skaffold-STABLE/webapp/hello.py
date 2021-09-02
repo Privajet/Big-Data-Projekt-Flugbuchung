@@ -2,18 +2,13 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 import emoji
 import socket
 import psycopg2
-#from pymemcache.client import base
 from pymemcache.client.base import Client
-#import time
 from essential_generators import DocumentGenerator
 from kafka import KafkaProducer
 # Lennart, 26.8
 # from flask_caching import Cache
 client = Client('memcached-service')
-
 app=Flask(__name__)
-# cache = Cache()
-
 
 # Test Zugriff auf den Webserver
 @app.route('/')
@@ -24,10 +19,14 @@ def Index():
 
 #   Test Cacheserver, Lennart, 26.08.
 #   Die Verbindung zur Datenbank steht bereits.
-@app.route('/cachetest')
-def test():
+@app.route('/deployment')
+def depl():
+    
+
+    ## Datenabfrage aus Cacheserver
     cache_result = client.get('flights')
 
+    ## Wenn keine Daten im Cache, ziehe aus der Datenbank
     if cache_result is None:  #flights nicht verfügbar
         con = psycopg2.connect("host=postgres port=5432 dbname=kranichairline_db user=postgres password=postgres")
         cur = con.cursor()
@@ -35,21 +34,67 @@ def test():
         data = cur.fetchall()
         cur.close()
         client.set('flights', data)
-        return emoji.emojize('Cacheeintrag :poop:', use_aliases=True) 
+        return render_template('index3.html', data=data)
     else: 
-        return emoji.emojize('Cacheserver geht :thums_up:', use_aliases=True) 
+        # Wenn verfügbar, nehme die Daten aus dem Cache
+        data=cache_result
+        return render_template('index3.html', data=data)
+    # except Exception as e:
+    #     data=e
+    #     return emoji.emojize('Cacheserver ist :poop:', use_aliases=True) 
+
+# Funktion zum Senden der Daten an das Kafka-Topic, die bei Klick des Buttons aufgerufen wird
+@app.route('/kafka')
+def your_flask_funtion():
+    # Senden Bei Klick
+    producer = KafkaProducer(bootstrap_servers='my-cluster-kafka-bootstrap:9092')
+    next_click = "KLICK GEHT"
+#     print(f"Sending message: {next_click}")
+    future = producer.send("1337datascience", next_click.encode())
+    result = future.get(timeout=5)
+#     print(f"Result: {result}")
+    return emoji.emojize(':thumbsup:', use_aliases=True) 
 
 
-    try: 
+###### Entwurf
+### Alternativ könnte man eine seite bauen, die solange der user sich darauf befindet nachrichten in das Topic sendet 
+# und so das Interesse der Nutzer abschätzen und dementsprechen die Preise erhöhen
+@app.route('/zeitbasiert')
+def timed_producer():
+    producer = KafkaProducer(bootstrap_servers='my-cluster-kafka-bootstrap:9092')
+
+    while True:
+        next_msg = "nochda"
+        print(f"Sending message: {next_msg}")
+        future = producer.send("1337datascience", next_msg.encode())
+        result = future.get(timeout=10)
+        print(f"Result: {result}")
+        time.sleep(5)
+
+############### Ab hier sind alles Testseiten ################
+# Test des Datenbankzugriffs
+
+@app.route('/cachetest')
+def test():
+      ## Datenabfrage aus Cacheserver
+    cache_result = client.get('flights')
+
+    ## Wenn keine Daten im Cache, ziehe aus der Datenbank
+    if cache_result is None:  #flights nicht verfügbar
         con = psycopg2.connect("host=postgres port=5432 dbname=kranichairline_db user=postgres password=postgres")
         cur = con.cursor()
         cur.execute("select * from flights")
         data = cur.fetchall()
         cur.close()
-        return render_template('index3.html', data=data)
-    except Exception as e:
-        data=e
-        return emoji.emojize('Cacheserver ist :poop:', use_aliases=True) 
+        client.set('flights', data)
+        return emoji.emojize('Daten waren nicht im Cacheserver :thumbsdown:', use_aliases=True) 
+    else: 
+        # Wenn verfügbar, nehme die Daten aus dem Cache
+        data=cache_result
+        return emoji.emojize('Daten waren im Cacheserver :thumbsup:', use_aliases=True) 
+    # except Exception as e:
+    #     data=e
+    #     return emoji.emojize('Cacheserver ist :poop:', use_aliases=True) 
 
 # Test des Datenbankzugriffs
 @app.route('/dbtest')  
@@ -111,27 +156,8 @@ def podtest():
         data=e
         return emoji.emojize('Datenbank :poop:', use_aliases=True)     
 
-# Funktion zum Senden der Daten an das Kafka-Topic, die bei Klick des Buttons aufgerufen wird
-@app.route('/kafka')
-def your_flask_funtion():
-    
-    # Vorlage aus Vorlesungs-Skript
 
-    #gen = DocumentGenerator()
-
-    producer = KafkaProducer(
-    bootstrap_servers='my-cluster-kafka-kafka11-bootstrap:29092')
-
-    next_click = "ein Klick passiert"
-#     print(f"Sending message: {next_click}")
-    future = producer.send("1337datascience", next_click)
-    result = future.get(timeout=5)
-#     print(f"Result: {result}")
-    return result
-
-## Hier noch die Abfrage richtig machen dass auch gespeichert wird. So erhöht er zwar die Preise aber die DB-Einträge werden 
-# irgendwie nicht geändert
-
+# test ob sich die preise ändern lassen
 @app.route('/changedb')  
 def changetest():
     try: 
@@ -148,6 +174,7 @@ def changetest():
   
 @app.route('/kafkaread')  
 
+# Test ob sich Messages lesen lassen
 def kafkaread():
     
     from kafka import KafkaConsumer

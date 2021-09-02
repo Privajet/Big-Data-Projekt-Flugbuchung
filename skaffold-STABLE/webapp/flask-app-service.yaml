@@ -7,10 +7,18 @@ spec:
   selector:
     app: webserver
   ports:
-    - protocol: TCP
+    - name: webserver
+      protocol: TCP
       port: 8080 
       # port: Port den dieser Service exposed
       targetPort: 5000
       ## target Port: Port des Ziel-pods den dieser Service anspricht   
       #NodePort: 32410 
       #nodeport: Port auf dem dieser Service von außen erreichbar ist
+    - name: kafka
+      protocol: TCP
+      port: 9092 
+      # port: Port den dieser Service exposed
+      targetPort: 9092
+      ## target Port: Port des Ziel-pods den dieser Service anspricht   
+      #NodePort: 32410   

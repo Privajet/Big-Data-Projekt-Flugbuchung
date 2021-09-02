@@ -17,3 +17,4 @@ spec:
           image: flaskapp
           ports:
           - containerPort: 5000
+          - containerPort: 9092
