@@ -1,12 +1,10 @@
-# Status 
+# Big Data Projekt "Flugbuchung"
+Aufbau:
 
 ![status](https://user-images.githubusercontent.com/77491801/131921808-7e7b8a75-b360-4378-ac63-c10aa550d7bf.jpg)
 
-# BigData
-Big Data Projekt
-
 ## Use-Case
-Dieses Projekt soll einen Zugang zu einer Datenbank mit Flügen ermöglichen und die Flugpreise je nach Zugriffshäufigkeit anpassen.
+Dieses Projekt soll einen Zugang zu einer Datenbank mit Flügen ermöglichen und die Flugpreise je nach Zugriffshäufigkeit/Klickhäufigkeit anpassen.
 Anfragen werden über einen Load-Balancer auf einzelne Webserver verteilt. Diese greifen auf die Datenbank mit den Flugdaten zu und behalten diese Informationen im Cache.
 Werte die die Zugriffshäufigkeit angeben werden in einem HDFS Data-Lake gespeichert, woraus dann die neuen Preise berechnet werden.
 
@@ -48,18 +46,18 @@ Folgende Programme müssen in der aktuellsten Version installiert sein:
 
 ## Debugging-Tipps
 ### Nützliche Befehle 
-*k delete all --all*
+    k delete all --all
 Kurzer Befehl zum löschen und Neustart der Pods. Geht schneller als ein Minikube-Neustart.  
 :warning: *nicht* stattdessen *k delete all --all --all-namespaces* ausführen. Dies würde auch den DNS-Pod löschen, der dann im Hintergrund als einziger **nicht** neu startet.
 
 
-*minikube dashboard --url*
+    minikube dashboard --url
 Zugriff auf das Minikube-Dashboard
 
 
-*while ($true) {Clear-Host; k get all; sleep 10}*  
+    while ($true) {Clear-Host; k get all; sleep 10}
 Intervallmäßige Überwachung aller pods und services in der Windows-Powershell
 
 ### Sonstiges
-Troubleshooting.xls beinhaltet eine (kleine und unvollständige) Sammlung der Fehler auf die wir gestoßen sind mit Lösungsansätzen.
+Troubleshooting.xls beinhaltet eine (kleine und bei weitem unvollständige) Sammlung der Fehler auf die wir gestoßen sind mit Lösungsansätzen.
 Teilweise sind auch Windows- Varianten für die in der Vorlesung verwendeten Linux-Befehle gennant.
