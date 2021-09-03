@@ -36,6 +36,7 @@ def depl():
         client.set('flights', data)
         return render_template('index3.html', data=data)
     else: 
+#### TODO: Ausgabeformat ist noch nicht schön
         # Wenn verfügbar, nehme die Daten aus dem Cache
         data=cache_result
         return render_template('index3.html', data=data)
@@ -99,20 +100,12 @@ def test():
 # Test des Datenbankzugriffs
 @app.route('/dbtest')  
 def dbtest():
-    try: 
-        con = psycopg2.connect("host=postgres port=5432 dbname=kranichairline_db user=postgres password=postgres")
-        print('+=========================+')
-        print('|  CONNECTED TO DATABASE  |')
-        print('+=========================+')
-    
-        cur = con.cursor()
-        cur.execute("select * from flights")
-        data = cur.fetchall()
-        cur.close()
-        return render_template('index3.html', data=data)
-    except Exception as e:
-        data=e
-        return emoji.emojize('Datenbank :poop:', use_aliases=True) 
+    con = psycopg2.connect("host=postgres port=5432 dbname=kranichairline_db user=postgres password=postgres")
+    cur = con.cursor()
+    cur.execute("select * from flights")
+    data = cur.fetchall()
+    cur.close()
+    return render_template('index3.html', data=data)
 # Test ob der service mit DNS erreichbar ist - aktuelle IP einfügen
 # UPDATE 24.08.
 # Fehler bei der DNS-Erreichbarkeit lag an "k delete --all --all-namespaces", was auch den DNS-Pod löscht

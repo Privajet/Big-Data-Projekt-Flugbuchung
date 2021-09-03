@@ -13,11 +13,16 @@ build:
     context: webapp
     docker:
       dockerfile: Dockerfile
-  
+  ## Wird aufgrund mangelnder Resourcen nicht gestartet
+  # - image: sparkapp
+  #   context: sparkapp
+  #   docker:
+  #     dockerfile: Dockerfile
   # - image: ozone
   #   context: ozone-docker
   #   docker:
   #     dockerfile: Dockerfile
+
   ## Nicht mehr verwendete/ nicht funktionierende Elemente
   # - image: python-kafka-publisher-demo
   #   context: python-publisher
@@ -37,7 +42,11 @@ deploy:
      - webapp/flask_app_deployment.yaml
      - Docker_Image_Postgres/deployment.yaml
      - webapp/flask-app-service.yaml
-     - portainer/portainer.yml
+     ### Spark ist noch nicht auskonfiguriert, wird aus Performancegründen nicht 
+     ### gestartet
+     #  spark.yaml
+     ### Portainer ist Optional zuschaltbar
+     #- portainer/portainer.yml
 
 ## Nicht mehr verwendete/ nicht funktionierende Elemente
     #  - ./python-subscriber/k8s/*
@@ -59,7 +68,7 @@ deploy:
     # - hadoop/deployment.yaml
     # - k8s/popular-slides-app.yaml
     # - k8s/popular-slides-spark.yaml
-    # - topic_creator.yml
+    # - topic_creator.yml   ## wird nicht benötigt, topic wird automatisch erstellt
     # - ozone-docker/deployment.yaml
     # - spark-bitnami/deployment.yaml
 
